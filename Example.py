@@ -8,8 +8,6 @@ from tensorflow.keras.metrics import SparseCategoricalAccuracy
 from tensorflow.keras.datasets import mnist
 from ChebyKANKeras import ChebyKANLayer
 
-# turn off tensorflow warning
-tf.get_logger().setLevel('INFO')
 
 if __name__ == "__main__":
     # Load the MNIST dataset
@@ -47,7 +45,6 @@ if __name__ == "__main__":
 
     # Evaluate the model
     test_loss, test_accuracy = model.evaluate(x_test, y_test)
-    print(f"Test Accuracy: {test_accuracy*100:.2f}%")
 
     # Predict the labels for the test set
     y_pred = model.predict(x_test)
@@ -65,7 +62,8 @@ if __name__ == "__main__":
     precision_value = precision.result().numpy()
     recall_value = recall.result().numpy()
     f1_score = 2 * (precision_value * recall_value) / (precision_value + recall_value)
-
+    
+    print(f"Test Accuracy: {test_accuracy*100:.2f}%")
     print(f"Precision: {precision_value*100:.2f}%")
     print(f"Recall: {recall_value*100:.2f}%")
     print(f"F1 Score: {f1_score*100:.2f}%")
