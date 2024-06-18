@@ -51,6 +51,20 @@ The model is defined using custom ChebyKAN layers and compiled with appropriate 
 history = model.fit(x_train, y_train, epochs=10, batch_size=32, validation_split=0.2)
 ```
 
+## Evaluate the model
+
+```python
+model.evaluate(x_test, y_test)
+```
+
+## Our results
+
+| Metric        | Value  |
+| ------------- | ------ |
+| Test Accuracy | 96.12% |
+| Precision     | 99.80% |
+| Recall        | 99.69% |
+| F1 Score      | 99.74% |
 
 
 
