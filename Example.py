@@ -1,27 +1,26 @@
 # using ChebyKAKeras implement a simple model for MNIST
 import tensorflow as tf
-from tensorflow.keras.layers import Input, LayerNormalization
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.losses import SparseCategoricalCrossentropy
-from tensorflow.keras.metrics import SparseCategoricalAccuracy
-from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential # type: ignore
+from tensorflow.keras.layers import Input, LayerNormalization # type: ignore
+from tensorflow.keras.optimizers import Adam # type: ignore
+from tensorflow.keras.losses import SparseCategoricalCrossentropy # type: ignore
+from tensorflow.keras.metrics import SparseCategoricalAccuracy # type: ignore
+from tensorflow.keras.datasets import mnist # type: ignore
 from ChebyKANKeras import ChebyKANLayer
 
 
 if __name__ == "__main__":
     # Load the MNIST dataset
+    input_size = 28 * 28
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    x_train = x_train.reshape(-1, 28 * 28).astype("float32") / 255.0
-    x_test = x_test.reshape(-1, 28 * 28).astype("float32") / 255.0
+    x_train = x_train.reshape(-1, input_size).astype("float32") / 255.0
+    x_test = x_test.reshape(-1, input_size).astype("float32") / 255.0
 
     # Preprocess the data
     model = Sequential(
         [
-            Input(
-                shape=(28 * 28,)
-            ),  # Input layer with the shape of flattened MNIST images
-            ChebyKANLayer(28 * 28, 32, 4),  # First ChebyKAN layer
+            Input(shape=(input_size,)),  # Input layer with the size of 28*28
+            ChebyKANLayer(input_size, 32, 4),  # First ChebyKAN layer
             LayerNormalization(),  # Layer normalization
             ChebyKANLayer(32, 16, 4),  # Second ChebyKAN layer
             LayerNormalization(),  # Layer
@@ -62,7 +61,7 @@ if __name__ == "__main__":
     precision_value = precision.result().numpy()
     recall_value = recall.result().numpy()
     f1_score = 2 * (precision_value * recall_value) / (precision_value + recall_value)
-    
+
     print(f"Test Accuracy: {test_accuracy*100:.2f}%")
     print(f"Precision: {precision_value*100:.2f}%")
     print(f"Recall: {recall_value*100:.2f}%")
